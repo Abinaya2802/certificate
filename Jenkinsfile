@@ -10,7 +10,7 @@ node{
       }
       stage('Build'){
          // Get maven home path and build
-         sh "mvn -Dmaven.test.failure.ignore=true clean package"
+         bat "mvn -Dmaven.test.failure.ignore=true clean package"
 
       }      
       /*stage('Build Docker Image'){         
@@ -47,7 +47,7 @@ node{
       
       */stage('Code Analysis'){
              withSonarQubeEnv('SonarQube') {
-             sh "mvn clean verify sonar:sonar"
+             bat "mvn clean verify sonar:sonar"
              }
         } 
        
