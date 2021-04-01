@@ -1,16 +1,13 @@
 node{
       //def dockerImageName= 'certification_udr_$JOB_NAME'
-      agent any
-      tools {
-            maven "Maven 3.4.5"
-      }
-     
+      
       stage('SCM Checkout'){
          git 'https://github.com/KnackCloud/certificate-upload.git'
       }
       stage('Build'){
          // Get maven home path and build
-         bat "mvn -Dmaven.test.failure.ignore=true clean package"
+         def mvnHome =  tool name: 'Maven 3.5.4', type: 'maven' 
+         bat "${mvnHome}/bin/mvn -Dmaven.test.failure.ignore=true clean package"
 
       }      
       /*stage('Build Docker Image'){         
@@ -47,7 +44,8 @@ node{
       
       */stage('Code Analysis'){
              withSonarQubeEnv('SonarQube') {
-             bat "mvn clean verify sonar:sonar"
+             def mvnHome =  tool name: 'Maven 3.5.4', type: 'maven' 
+             bat "${mvnHome}/bin/mvn clean verify sonar:sonar"
              }
         } 
        
